@@ -216,12 +216,14 @@ namespace _CP1_Proyecto1
                         }
                         break;
 
+                    //--------------------------------------FILTRO-----------------------------//
                     case 8:
                         if (operadores.Contains(cadenaConcatenar))
                         {
                             estadoPrincipal = 10;
                             inicioEstado--;
                         }
+               
                         else
                         {
                             estadoPrincipal = 5;
@@ -229,6 +231,7 @@ namespace _CP1_Proyecto1
                         }
 
                         break;
+                  
 
                     //--------------------------ESPERA DE DEFINICION DE CONJUNTO------------//
                     case 3:
@@ -241,7 +244,7 @@ namespace _CP1_Proyecto1
 
                     //-----------------------ESTADO CADENA...expresion?----------------------//
                     case 4:
-                        if (cadenaConcatenar == '"' || cadenaConcatenar == '\n')
+                        if (cadenaConcatenar == '"')
                         {
                             Lexema instancia = new Lexema(token, "cadena", filaDato, columnaDato);
                             registro.AddLast(instancia);

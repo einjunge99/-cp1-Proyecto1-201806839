@@ -44,14 +44,14 @@ namespace _CP1_Proyecto1
                     int tempCont = 0;
 
                     expresion = item.info;
-
-                    for (int j = 0; j < expresion.Length; j++)
+                    int i = 0;
+                    for (i = 0; i < expresion.Length; i++)
                     {
 
                         switch (current)
                         {
                             case 0:
-                                switch (expresion[j])
+                                switch (expresion[i])
                                 {
                                     case ' ':
                                         current = 0;
@@ -62,8 +62,9 @@ namespace _CP1_Proyecto1
                                     case '{':
                                         current = 2;
                                         break;
+            
                                     default:
-                                        concat += expresion[j];
+                                        concat += expresion[i];
                                         Nodo nodo = new Nodo(ID, concat, "operador");
                                         nodo.tipoAux = "operador";
                                         aux.AddLast(nodo);
@@ -73,11 +74,12 @@ namespace _CP1_Proyecto1
                                 }
                                 break;
                             case 1:
-                                if (expresion[j] == '"')
+                                if (expresion[i] == '"')
                                 {
+                            
                                     Nodo nodo = new Nodo(ID, concat, "cadena");
                                     nodo.tipoAux = "cadena";
-
+                            
                                     if (true)
                                     {
                                         LinkedList<Nodo> listaNodo = new LinkedList<Nodo>();
@@ -107,11 +109,12 @@ namespace _CP1_Proyecto1
                                 }
                                 else
                                 {
-                                    concat += expresion[j];
+                                    concat += expresion[i];
+                  
                                 }
                                 break;
                             case 2:
-                                if (expresion[j] == '}')
+                                if (expresion[i] == '}')
                                 {
                                     Nodo nodo = new Nodo(ID, concat, "conjunto");
                                     nodo.tipoAux = "conjunto";
@@ -150,9 +153,11 @@ namespace _CP1_Proyecto1
                                 }
                                 else
                                 {
-                                    concat += expresion[j];
+                                    concat += expresion[i];
                                 }
                                 break;
+                       
+
                         }
 
                     }
@@ -272,54 +277,62 @@ namespace _CP1_Proyecto1
         public void conjunto(Lexema lexema, string nombre)
         {
             LinkedList<string> elementos = new LinkedList<string>();
-            int actual = 0;
-
-            string split = lexema.info;
-            int prim = split[0];
-
-            string temp = "";
-            temp += split[0];
-            elementos.AddLast(temp);
-            temp = "";
-
-            for (int i = 1; i < split.Length; i++)
+            if (!lexema.info.Equals("todo"))
             {
-                char estado = split[i];
-                switch (actual)
+                int actual = 0;
+
+                string split = lexema.info;
+                int prim = split[0];
+
+                string temp = "";
+                temp += split[0];
+                elementos.AddLast(temp);
+                temp = "";
+
+                for (int i = 1; i < split.Length; i++)
                 {
-                    case 0:
-                        switch (estado)
-                        {
-                            case ',':
-                                actual = 2;
-                                break;
-                            case '~':
-                                actual = 1;
-                                break;
-                        }
-                        break;
-                    case 1:
-                        elementos.Clear();
-                        int sec = split[i];
-                        for (int k = prim; k < sec + 1; k++)
-                        {
-                            temp += (char)k;
+                    char estado = split[i];
+                    switch (actual)
+                    {
+                        case 0:
+                            switch (estado)
+                            {
+                                case ',':
+                                    actual = 2;
+                                    break;
+                                case '~':
+                                    actual = 1;
+                                    break;
+                            }
+                            break;
+                        case 1:
+                            elementos.Clear();
+                            int sec = split[i];
+                            for (int k = prim; k < sec + 1; k++)
+                            {
+                                temp += (char)k;
+                                elementos.AddLast(temp);
+                                temp = "";
+                            }
+                            break;
+                        case 2:
+                            temp += split[i];
                             elementos.AddLast(temp);
                             temp = "";
-                        }
-                        break;
-                    case 2:
-                        temp += split[i];
-                        elementos.AddLast(temp);
-                        temp = "";
-                        actual = 0;
-                        break;
+                            actual = 0;
+                            break;
 
 
+                    }
                 }
+                Conjunto conjunto = new Conjunto(nombre, elementos);
+                conjuntos.AddLast(conjunto);
+
             }
-            Conjunto conjunto = new Conjunto(nombre, elementos);
-            conjuntos.AddLast(conjunto);
+            else {
+                Conjunto conjunto = new Conjunto(nombre, elementos);
+                conjuntos.AddLast(conjunto);
+            }
         }
         public LinkedList<Conjunto> getConjuntos() {
             return conjuntos;

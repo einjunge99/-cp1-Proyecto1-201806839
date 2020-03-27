@@ -397,11 +397,24 @@ namespace _CP1_Proyecto1
 
                     if (item.tipo.Equals("conjunto"))
                     {
-                        LinkedList<string> temp = buscarConjunto(item.info);
-                        if (temp.Contains(terminal))
+                        if (item.info.Equals("todo"))
                         {
-                            actual = item.ID;
-                            global = true;
+          
+                            if (!terminal.Equals("\n")) {
+                                actual = item.ID;
+                                global = true;
+                            }
+                  
+                        }
+                        else
+                        {
+                            LinkedList<string> temp = buscarConjunto(item.info);
+
+                            if (temp.Contains(terminal))
+                            {
+                                actual = item.ID;
+                                global = true;
+                            }
                         }
                     }
                     else
@@ -416,6 +429,28 @@ namespace _CP1_Proyecto1
                         }
                         else
                         {
+                            if (item.info.Equals("\\n") || item.info.Equals("\\t") || item.info.Equals("\\'")) {
+                                string remplazo = "";
+                                if (item.info.Equals("\\n"))
+                                {
+                                    remplazo = item.info.Replace("\\n", "\n");
+                                }
+                                else if (item.info.Equals("\\t"))
+                                {
+                                    remplazo = item.info.Replace("\\t", "\t");
+                                }
+                                else {
+                                    remplazo = item.info.Replace("\\'", "\'");
+                                }
+
+   
+                                if (remplazo.Equals(terminal))
+                                {
+                                    actual = item.ID;
+                                    global = true;
+                                }
+                            }
+                            else { 
                             if (retroceder)
                             {
                                 posAux = pos;
@@ -451,7 +486,7 @@ namespace _CP1_Proyecto1
                                 }
                             }
                             break;
-
+                        }
                         }
 
                     }

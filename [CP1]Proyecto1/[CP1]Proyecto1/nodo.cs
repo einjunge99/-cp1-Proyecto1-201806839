@@ -15,6 +15,7 @@ namespace _CP1_Proyecto1
         public Nodo izquierda;
         public Nodo derecha;
 
+
         public Nodo(int ID, string info, string tipo) {
             this.ID = ID;
             this.info = info;
